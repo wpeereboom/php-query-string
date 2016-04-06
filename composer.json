@@ -1,0 +1,21 @@
+{
+    "name": "wpeereboom/php-query-string",
+    "description": "Add parameter to query string when url is for specific domain",
+    "homepage": "https://github.com/wpeereboom/php-query-string",
+    "require": {
+    },
+    "require-dev": {
+        "phpunit/phpunit": "5.0.*"
+    },
+    "authors": [
+        {
+            "name": "Winfred Peereboom",
+            "email": "winfred.peereboom@werkspot.nl"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "PhpQueryString": "src/"
+        }
+    }
+}
