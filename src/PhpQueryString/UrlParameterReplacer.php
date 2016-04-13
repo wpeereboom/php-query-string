@@ -40,16 +40,17 @@ class UrlParameterReplacer
             $parameterAddOn[] = $param->getName() . '=' . urlencode($param->getValue());
         }
 
-        $reg_exUrl = "/([\"|\']http[s]?:\/\/?" . $this->domain . "\S*[\"|\'])/";
+        $reg_exUrl = "/(href=[\"|\']http[s]?:\/\/?" . $this->domain . "\S*[\"|\'])/";
         if (preg_match_all($reg_exUrl, $this->content, $urls)) {
             foreach($urls[0] as $url) {
-                $newUrl = str_replace('\'', '', $url);
+                $newUrl = str_replace('href=', '', $url);
+                $newUrl = str_replace('\'', '', $newUrl);
                 $newUrl = str_replace('"', '', $newUrl);
 
                 $newUrl .= (strpos($newUrl, '?')) ? '&' : '?';
                 $newUrl .= implode('&', $parameterAddOn);
 
-                $this->content = str_replace($url, '"' . $newUrl . '"', $this->content);
+                $this->content = str_replace($url, 'href="' . $newUrl . '"', $this->content);
             }
         }
 

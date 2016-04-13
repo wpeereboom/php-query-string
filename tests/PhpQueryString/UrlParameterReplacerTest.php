@@ -33,6 +33,14 @@ class UrlParameterReplacerTest extends PHPUnit_Framework_TestCase
                 '<br/><a href="https://domain.nl/alles-erbij?var=1&var2=value2">Test</a>',
             ],
             [
+                '<br/><img src="https://domain.nl/pciture.jpg"/>',
+                'domain.nl',
+                [
+                    'var' => ['name'=> 'var2', 'value'=> 'value2'],
+                ],
+                '<br/><img src="https://domain.nl/pciture.jpg"/>',
+            ],
+            [
                 '<br/><a href="https://domain.nl/alles-erbij?var=1">Test</a><a href="https://domain.nl/alles-erbij?var=1">Test2</a>',
                 'domain.nl',
                 [
