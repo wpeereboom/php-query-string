@@ -14,43 +14,43 @@ class UrlParameterReplacer
      */
     protected $params;
 
-    public function setContent($content)
+    protected $domain;
+
+    public function setContent($content, $domain)
     {
         $this->content = $content;
+        $this->domain = $domain;
     }
 
     /**
      * @param string $name
      * @param string $value
-     * @param string $domain
      */
-    public function setParam($name, $value, $domain)
+    public function setParam($name, $value)
     {
-        $param = new UrlParameter($name, $value, $domain);
+        $param = new UrlParameter($name, $value);
         $this->params[] = $param;
     }
 
     public function getReplacedContent()
     {
+        $parameterAddOn = [];
+
         foreach ($this->params as $param) {
-            $parameterAddOn = $param->getName() . '=' . urlencode($param->getValue());
-            $domain = $param->getDomain();
-            $this->content = preg_replace_callback(
-                '/(<a[^>]href=(?:"|\')*)([^\'"]*)((?:"|\')[^>]*>[^>]*<\/a>)/',
-                function ($m) use ($parameterAddOn, $domain) {
-                    $link = rtrim($m[2], "? \t\r\n\x0B\0");
-                    if(!strpos($link, $domain)) {
-                        return $m[1] . $link . $m[3];
-                    }
-                    if (strpos($link, '?') === false) {
-                        $link .= '?';
-                    } else {
-                        $link .= '&';
-                    }
-                    $link .= $parameterAddOn;
-                    return $m[1] . $link . $m[3];
-                },
-                $this->content);
+            $parameterAddOn[] = $param->getName() . '=' . urlencode($param->getValue());
+        }
+
+        $reg_exUrl = "/([\"|\']http[s]?:\/\/?" . $this->domain . "\S*[\"|\'])/";
+        if (preg_match_all($reg_exUrl, $this->content, $urls)) {
+            foreach($urls[0] as $url) {
+                $newUrl = str_replace('\'', '', $url);
+                $newUrl = str_replace('"', '', $newUrl);
+
+                $newUrl .= (strpos($newUrl, '?')) ? '&' : '?';
+                $newUrl .= implode('&', $parameterAddOn);
+
+                $this->content = str_replace($url, '"' . $newUrl . '"', $this->content);
+            }
         }
 
         return $this->content;

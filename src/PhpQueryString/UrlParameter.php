@@ -14,21 +14,14 @@ class UrlParameter
     private $value;
 
     /**
-     * @var string
-     */
-    private $domain;
-
-    /**
      * UrlParameter constructor.
      * @param string $name
      * @param string $value
-     * @param string $domain
      */
-    public function __construct($name, $value, $domain)
+    public function __construct($name, $value)
     {
         $this->name = $name;
         $this->value = $value;
-        $this->domain = $domain;
     }
 
     /**
@@ -45,13 +38,5 @@ class UrlParameter
     public function getValue()
     {
         return $this->value;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDomain()
-    {
-        return $this->domain;
     }
 }
