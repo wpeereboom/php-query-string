@@ -83,6 +83,14 @@ class UrlParameterReplacerTest extends PHPUnit_Framework_TestCase
                 '<a class="button productBoxButton" href="http://domain.nl/campaign-response/record/336/product-view/product/959-2b7e865aade619dc82887c20160406082841/1a1b37b1e90bfc2f4fe78be5869f1e07.1?var2=value2" style="margin-bottom: 0;display: inline-block;outline: 0 none;border-radius: .25em;border: 1px solid #00ac3b;padding: 0 .7em;cursor: pointer;font-family: \'Helvetica Neue\', arial, sans-serif;min-height: 2.8125em;line-height: 2.8125em;text-align: center;text-decoration: none;-webkit-appearance: none;-moz-appearance: none;color: #ffffff;background: #4DB500;box-shadow: inset 0px -3px 0px 0px #378200;filter: none;font-size: 16px;width: 190px;">
                                         <strong>Naar Accu\'s</strong>
                                                     </a>',
+            ],
+            [
+                '<td><a href="http://domain.nl/newsletter/uitschrijven/{$campaign-id}-{{user_id}}/{{emailadres}}" style="line-height: 30px;font-size: 12px;text-decoration: underline;color: #132736;">Afmelden</a><br></td>',
+                'domain.nl',
+                [
+                    'var' => ['name'=> 'var2', 'value'=> 'value2'],
+                ],
+                '<td><a href="http://domain.nl/newsletter/uitschrijven/{$campaign-id}-{{user_id}}/{{emailadres}}?var2=value2" style="line-height: 30px;font-size: 12px;text-decoration: underline;color: #132736;">Afmelden</a><br></td>'
             ]
         ];
     }
