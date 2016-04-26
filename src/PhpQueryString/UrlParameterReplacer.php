@@ -40,7 +40,8 @@ class UrlParameterReplacer
             $parameterAddOn[] = $param->getName() . '=' . urlencode($param->getValue());
         }
 
-        $reg_exUrl = "/(href=[\"|\']http[s]?:\/\/?" . $this->domain . "\S*[\"|\'])/";
+        $reg_exUrl = "(href=[\"|\']http[s]?:\/\/?" . $this->domain . "\S*[\"|\'])";
+        
         if (preg_match_all($reg_exUrl, $this->content, $urls)) {
             foreach($urls[0] as $url) {
                 $newUrl = str_replace('href=', '', $url);
